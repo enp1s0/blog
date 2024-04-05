@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "LAPACKEのlatmsを使う"
+title:  "浮動小数点数デコーダへの道"
 date:   2019-08-17 01:08:41 +0900
 categories: etc
 ---
