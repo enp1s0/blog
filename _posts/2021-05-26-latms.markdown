@@ -1,0 +1,51 @@
+---
+layout: post
+title:  "LAPACKEのlatmsを使う"
+date:   2021-05-26 01:08:41 +0900
+categories: etc
+---
+
+{% include header.markdown %}
+
+<h2 id='a'>何の話か</h2>
+<p>
+LAPACKにはlatmsと呼ばれる特異値や条件数を指定して乱数行列を生成するための関数が用意されています。<br>
+しかし、これをLAPACKEから使うにはliblapacke.aのビルド時にやることがあるよという話。
+</p>
+
+<h2 id='b'>latmsが使えるliblapacke.aのビルド</h2>
+<p>
+latmsの実体はそもそもtmglib（LAPACKのテスト用行列を生成したりするためのライブラリ）に含まれるもので、lapacklibのものではありません。<br>
+デフォルトではlapackelibはlapacklibのCインターフェイスとなっているため、tmglibの関数を当然含みません。<br>
+そこで、make.incを編集してlapackelibにtmglibのCインターフェイスを含ませるよう設定してからビルドします。
+</p>
+<ol>
+  <li><a href='http://www.netlib.org/lapack/'>LAPACK — Linear Algebra PACKage</a>から欲しいバージョンのLAPACKをダウンロードして展開</a></li>
+  <li>展開したディレクトリ内で以下のコマンドを実行
+{% highlight bash %}
+cp make.inc.example make.inc
+{% endhighlight %}
+</li>
+<li>make.inc内の
+{% highlight bash %}
+#LAPACKE_WITH_TMG = Yes
+{% endhighlight %}
+のコメントアウトを外す。
+</li>
+<li>lapackelibをビルド。必要に応じてその他のライブラリもビルド。
+{% highlight bash %}
+make lapackelib
+{% endhighlight %}
+</ol>
+<p>
+このmain.incの書き換えを行わないと、当然ですが
+{% highlight text %}
+undefined reference to `LAPACKE_slatms'
+{% endhighlight %}
+
+というエラーが出ます。
+<h2 id='c'>おわりに</h2>
+<p>
+LAPACKは数値計算の根幹となるライブラリな気がするのですが、ドキュメントの整備状況やネットに転がっている質問・回答が少なくて使うのに苦労する気がします。<br>
+気のせいですかね。<br>
+</p>
