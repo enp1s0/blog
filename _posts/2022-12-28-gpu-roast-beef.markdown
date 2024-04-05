@@ -5,6 +5,8 @@ date:   2022-12-28 01:08:41 +0900
 categories: etc
 ---
 
+{% include header.markdown %}
+
 <h2 id='a'>背景</h2>
 <p>
 GPU (General Processing Unit) は汎用的な処理装置であり、今まで熱燗やココアを作ってきました。
