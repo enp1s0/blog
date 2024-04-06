@@ -71,4 +71,4 @@ Nsight Computeにこの機能が入るまでは自分でAIを計算する必要�
   <li id='ref1'>[1] <a href='https://dl.acm.org/doi/10.1145/1498765.1498785'>Roofline: An Insightful Visual Performance Model For Floating-Point Programs And Multicore Architectures</a></li>
   <li id='ref2'>[2] <a href='https://developer.nvidia.com/blog/accelerating-hpc-applications-with-nsight-compute-roofline-analysis/'>Accelerating HPC Applications with NVIDIA Nsight Compute Roofline Analysis - NVIDIA Developer Blog</a></li>
 </ul>
-<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script"></script>
