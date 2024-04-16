@@ -4,6 +4,9 @@ title:  "CUDAとcmakeとLanguage server"
 date:   2023-11-24 01:08:41 +0900
 categories: cuda
 ---
+
+{% include header.markdown %}
+
 <h2 id='a'>なんの話か</h2>
 <p>
 CMakeのCUDA関連のプロジェクトで、LSPを用いたコード補完を行う場合のtips的なものです。<br>
