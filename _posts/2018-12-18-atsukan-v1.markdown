@@ -78,9 +78,10 @@ ArchLinux
 
 監視スレッドは燗関数計算スレッドを立ち上げ，GPU温度や消費電力の測定を行う．
 
+</p>
+
 ![atsukan-flow]({{site.baseurl}}/assets/images/atsukan-flow.svg)
 
-</p>
 <h4>プログラムの大まかな仕様</h4>
 <ul>
 <li>プログラムの引数として燗関数の種類(GEMM，N体問題等)，燗関数へのパラメータ(並列数や問題サイズ等)，計算型(float/double)，実行時間を指定できる</li>
