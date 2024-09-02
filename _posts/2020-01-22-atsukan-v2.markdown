@@ -1,3 +1,4 @@
+---
 layout: post
 title:  "Multi-node High Performance ATSUKAN Computing"
 date:   2020-01-22 09:57:05 +0900
@@ -6,8 +7,6 @@ categories: etc
 
 {% include header.markdown %}
 
-
-</div>
 
 ![atsukan-server-2]({{site.baseurl}}/assets/images/atsukan.svg)
 
@@ -55,7 +54,7 @@ categories: etc
 <h2 id='exp'>いろいろな実験</h2>
 コンテストに提出した最終レポートには5つほど実験を載せたのですが，ここでは3つほど紹介します．
 
-<h3 id='e1'>GPU温度と冷却液温度の関係の調査</h2>
+<h3 id='e1'>GPU温度と冷却液温度の関係の調査</h3>
 
 ![atsukan-server-2]({{site.baseurl}}/assets/images/ac_gf.svg)
 
@@ -67,7 +66,7 @@ categories: etc
 また，ファンが1つのとき冷却液温度は58℃程度となり，日本酒を湯煎するにはいい感じなことがわかりました．
 </p>
 
-<h3 id='e2'>スケールするかの調査</h2>
+<h3 id='e2'>スケールするかの調査</h3>
 ![atsukan-server-2]({{site.baseurl}}/assets/images/ac_scale.svg)
 <p>
 簡単に言えば2倍のノード数なら2倍速く冷却液の加熱が行えるのかってことです．<br>
