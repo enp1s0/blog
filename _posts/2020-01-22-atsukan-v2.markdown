@@ -20,7 +20,7 @@ categories: etc
 <p>
 昨年はHigh Performance ATSUKAN Computing第一弾として1枚のグラフィックボードからファンを取り除き徳利を乗せて熱燗を作りました．
 <ul>
-  <li><a href='https://x.momo86.net/?p=59'>High Performance ATSUKAN Computing - 天炉48町</a></li>
+  <li><a href='https://enp1s0.github.io/blog/etc/2018/12/17/atsukan-v1.html'>High Performance ATSUKAN Computing - 天炉48町</a></li>
 </ul>
 今年は株式会社八光電機様が開催しています「<a href='https://www.hakko.co.jp/contest/contest_index.php'>HAKKO熱の実験コンテスト</a>」に参加し，研究資金を頂いた上で熱燗を作る計算クラスタ「ATSUKAN Cluster」の開発を行いました．
 </p>
@@ -87,7 +87,7 @@ categories: etc
   <li>何も食べずにアルコールだけ摂取すると吸収が速く酔いが回りやすいため，お寿司を食べながら熱燗を楽しみます．</li>
 </ol>
 
-![atsukan-server-2]({{site.baseurl}}/assets/images/ac_sushi.svg)
+![atsukan-server-2]({{site.baseurl}}/assets/images/ac_sushi.jpg)
 
 <h2 id='end'>終わりに</h2>
 <p>
