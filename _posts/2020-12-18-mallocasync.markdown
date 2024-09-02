@@ -6,14 +6,18 @@ categories: etc
 ---
 
 {% include header.markdown %}
-これは<a href='https://adventar.org/calendars/5154'>rioyokotalab Advent Calendar 2020</a>
- 18日目の記事です．<h2 id='a'>何の話か</h2><p>CUDA 11.2から<span class='code-range'>cudaMallocAsync</span>，<span class='code-range'>cudaFreeAsync</span>という関数がCUDAに追加されました．<br>
+これは<a href='https://adventar.org/calendars/5154'>rioyokotalab Advent Calendar 2020</a>18日目の記事です．
+<h2 id='a'>何の話か</h2>
+<p>CUDA 11.2から<span class='code-range'>cudaMallocAsync</span>，<span class='code-range'>cudaFreeAsync</span>という関数がCUDAに追加されました．<br>
 これと同時にmemory poolという概念がCUDAのメモリにも導入されました．<br>
 <span class='code-range'>cudaMallocAsync</span>はmemory poolに指定したサイズのメモリ領域がある場合はそれを確保し，ない場合は普通にメモリを取りに行きます．<br>
 <span class='code-range'>cudaFreeAsync</span>はmemory poolへメモリを返します．<br>
 memory poolにはデフォルトのものとと我々開発者が作成できるものの2種類があります．<br>
-この記事はこのAsync関数の性能・挙動について書きます．</p>
-<h2 id='b'>評価プログラム</h2><p>評価にはこちらのコードを用いました．<br>
+この記事はこのAsync関数の性能・挙動について書きます．
+</p>
+
+<h2 id='b'>評価プログラム</h2>
+<p>評価にはこちらのコードを用いました．<br>
 このプログラムでは，頻繁にmalloc/freeを繰り返した場合の処理時間を調べます．<br>
 そのために単にメモリを確保し，要素ごとの演算を行うだけのカーネル関数を呼び，終わり次第freeします．<br>
 これを4回行います．<br>
@@ -21,7 +25,8 @@ memory poolにはデフォルトのものとと我々開発者が作成できる
 <script src="https://gist.github.com/enp1s0/8c1a6fd67ceb811cb5b59bba7cedb9e0.js"></script>
 <h3>計算環境</h3><ul><li>NVIDIA GeForce RTX 3080</li><li>CUDA 11.2</li><li>NVIDIA Driver 460.27.04</li></ul><h2 id='d'>結果</h2><table class="table"><thead>  <tr>    <th class="tg-0lax"></th>    <th class="tg-0lax"><span class='code-range'>cudaMallocAsync</span> / <span class='code-range'>cudaFreeAsync</span></th>    <th class="tg-0lax"><span class='code-range'>cudaMalloc</span> / <span class='code-range'>cudaFree</span></th>  </tr></thead><tbody>  <tr>    <td class="tg-0lax">計算時間</td>    <td class="tg-0lax">0.2112 [秒]</td>    <td class="tg-0lax">12.69 [秒]</td>  </tr></tbody></table><p>Asyncの方が圧倒的に速いですね．<br>
 この原因は主に<span class='code-range'>cudaFree</span>にあるようです．</p>
-<h3>プロファイリング</h3><p>Nsight Systemsで処理のタイムラインを見てみます．</p>
+<h3>プロファイリング</h3>
+<p>Nsight Systemsで処理のタイムラインを見てみます．</p>
 
 <h4>普通のcudaMalloc/cudaFree</h4>
 ![]({{site.baseurl}}/assets/images/async-cudafree.png)
