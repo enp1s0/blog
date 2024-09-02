@@ -1,0 +1,112 @@
+layout: post
+title:  "Multi-node High Performance ATSUKAN Computing"
+date:   2020-01-22 09:57:05 +0900
+categories: etc
+---
+
+{% include header.markdown %}
+
+
+</div>
+
+![atsukan-server-2]({{site.baseurl}}/assets/images/atsukan.svg)
+
+<h2 id='overview'>概要</h2>
+<p>
+ごみ焼却場における火力発電や液化ガスの再ガス化に伴う冷熱発電など，副次的に発生する熱の再利用は至るところで行われている．<br>
+私達が普段用いている計算機も動作に伴い熱を排出しており，いかにこの熱を取り除き捨てるかの研究開発が行われている．<br>
+でもその捨てる熱，もったいなくないですか？<br>
+よろしければ「熱燗」作りませんか？
+</p>
+<p>
+昨年はHigh Performance ATSUKAN Computing第一弾として1枚のグラフィックボードからファンを取り除き徳利を乗せて熱燗を作りました．
+<ul>
+  <li><a href='https://x.momo86.net/?p=59'>High Performance ATSUKAN Computing - 天炉48町</a></li>
+</ul>
+今年は株式会社八光電機様が開催しています「<a href='https://www.hakko.co.jp/contest/contest_index.php'>HAKKO熱の実験コンテスト</a>」に参加し，研究資金を頂いた上で熱燗を作る計算クラスタ「ATSUKAN Cluster」の開発を行いました．
+</p>
+
+<h2 id='cluster'>ATSUKAN Cluster</h2>
+<p>
+ひとまず現物を見てみましょう．
+</p>
+![atsukan-server-2]({{site.baseurl}}/assets/images/ac_whole_bg.jpg)
+![atsukan-server-2]({{site.baseurl}}/assets/images/ac_whole.jpg)
+<p>
+構成としてはNVIDIA Tesla K20が2枚刺さったノードが4ノードの計8GPUで構成されます．<br>
+それぞれのグラフィックボードには水冷用の枕が取り付けられており，冷却液が循環します．<br>
+温められた冷却液は写真中央の冷却液タンクに集められ，ここで日本酒と冷却液での熱交換が行われます．<br>
+（日本酒を冷却液として使うのは<a href='https://x.momo86.net/?p=105'>別の実験</a>）<br>
+冷却液タンクは100円ショップのペン立てを土台に自作です．<br>
+このクラスタを模式的に描いたものやノードの各箇所の写真が以下です．
+</p>
+
+![atsukan-server-2]({{site.baseurl}}/assets/images/ac_image.svg)
+![atsukan-server-2]({{site.baseurl}}/assets/images/ac_ftank.jpg)
+![atsukan-server-2]({{site.baseurl}}/assets/images/ac_exchange.jpg)
+![atsukan-server-2]({{site.baseurl}}/assets/images/ac_connection.jpg)
+
+<p>
+世の中にはプロセッサでパンケーキ[1]や焼き肉[2]などを作る人たちがいるのですが，私が見た限り彼らはプロセッサから冷却装置を取り外しているようです．<br>
+しかし多くのプロセッサはその温度がしきい値を超えると保護モードに入り自殺したり黙って壊れたりするので，これは計算機の計算機能を殺していることになります．<br>
+やっぱり計算機には計算してもらいたいのでこのプロジェクトでは適切にプロセッサの冷却を行いつつ燗酒をつけるのが目標です．
+</p>
+
+<h2 id='exp'>いろいろな実験</h2>
+コンテストに提出した最終レポートには5つほど実験を載せたのですが，ここでは3つほど紹介します．
+
+<h3 id='e1'>GPU温度と冷却液温度の関係の調査</h2>
+
+![atsukan-server-2]({{site.baseurl}}/assets/images/ac_gf.svg)
+
+<p>
+2 GPUごとに1つのラジエータを持つのですが，それぞれのラジエータにつけるファンの個数を1個とした場合と2個とした場合のGPU温度と冷却液温度の変化の調査を行いました．<br>
+冷却液の温度は冷却液タンクに温度計を刺して10秒おきに写真を撮って手動でデータに起こしました．<br>
+実験は冷却液温度が十分に安定した状態からはじめ，8GPU全てでGEMMを回します．
+その結果，ファンの個数によらず加熱中はおおよそ4~5℃程度の差ができ，3600秒目でGEMM計算を停止するとGPUと冷却液温度は一緒になって落ちていきました．<br>
+また，ファンが1つのとき冷却液温度は58℃程度となり，日本酒を湯煎するにはいい感じなことがわかりました．
+</p>
+
+<h3 id='e2'>スケールするかの調査</h2>
+![atsukan-server-2]({{site.baseurl}}/assets/images/ac_scale.svg)
+<p>
+簡単に言えば2倍のノード数なら2倍速く冷却液の加熱が行えるのかってことです．<br>
+稼働させるノード数を1台，2台，4台とした場合の冷却液温度が50度に達すにまでに要した時間を調査しました．<br>
+開始温度はその実験でも27℃程度です．<br>
+赤破線が理想的にスケールした場合の値です．<br>
+正直なんとも言えない結果だと思います．<br>
+もっとノードがほしいです．
+</p>
+
+<h3 id='e3'>熱燗を作るぞ！</h3>
+手順
+<ol>
+  <li>お寿司とお酒を買いに行きます．</li>
+  <li>GEMMを回して58℃程度の冷却液を作ります．</li>
+  <li>冷却液の中に丸底フラスコに入れた日本酒を入れます．</li>
+  <li>10分程で55℃程度の熱燗の完成です．</li>
+  <li>何も食べずにアルコールだけ摂取すると吸収が速く酔いが回りやすいため，お寿司を食べながら熱燗を楽しみます．</li>
+</ol>
+
+![atsukan-server-2]({{site.baseurl}}/assets/images/ac_sushi.svg)
+
+<h2 id='end'>終わりに</h2>
+<p>
+初めての本格水冷楽しかったです．<br>
+次は低温調理でローストビーフかなーと思っていたりします．<br>
+今回はちょっぴり熱燗を飲みましたが，依然お酒を大して飲めないままなのが残念です．<br>
+私の最終レポートも含め，コンテスト参加者のレポートは<a href='https://www.hakko.co.jp/contest/result_n033.php'>こちら</a>からご覧いただけます．
+</p>
+
+<h3 id='thinks'>謝辞</h3>
+<p>
+研究資金を提供してくださった株式会社八光電機様に心から感謝申し上げます．<br>
+ブログでは名前をふせさせていただきますが，この実験のために私の研究室に部品の提供をしてくださった先生と水冷周りに関して助言をしてくださった先生に感謝申し上げます．<br>
+また熱燗を飲んで感想を言って下さいました研究室の後輩方に感謝いたします．
+</p>
+
+<h3 id='ref'>参考</h3>
+<ul>
+  <li>[1]<a href='https://www.tomshardware.com/reviews/intel-amd-hedt-pancakes,6366.html'>AMD vs Intel: Which CPU Cooks Better Pancakes?</a></li>
+  <li>[2]<a href='https://www.youtube.com/watch?v=wrmu_8LH88U'>AMDのCPUで焼き肉してみた！①【Cooking on CPU】 - youtube</a></li>
+</ul>
