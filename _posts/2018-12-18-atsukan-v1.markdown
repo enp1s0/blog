@@ -59,9 +59,9 @@ GPU上で計算(以降「燗計算」と呼ぶ．)を行う．
 </tbody>
 </table>
 
-![]({{site.baseurl}}/assets/images/atsukan-server-0.jpg)
-![]({{site.baseurl}}/assets/images/atsukan-server-1.jpg)
-![]({{site.baseurl}}/assets/images/atsukan-server-2.jpg)
+![atsukan-server-0]({{site.baseurl}}/assets/images/atsukan-server-0.jpg)
+![atsukan-server-1]({{site.baseurl}}/assets/images/atsukan-server-1.jpg)
+![atsukan-server-2]({{site.baseurl}}/assets/images/atsukan-server-2.jpg)
 
 <h3 id='pre2'>ソフトウェア</h3>
 <h4>OS</h4>
@@ -75,18 +75,20 @@ ArchLinux
 <li>リポジトリ : <a href='https://github.com/enp1s0/atsukan'>GitHub enp1s0/atsukan</a></li>
 </ul>
 <p>
+
 監視スレッドは燗関数計算スレッドを立ち上げ，GPU温度や消費電力の測定を行う．
 
-![]({{site.baseurl}}/assets/images/atsukan-flow.svg)
+![atsukan-flow]({{site.baseurl}}/assets/images/atsukan-flow.svg)
 
 </p>
 <h4>プログラムの大まかな仕様</h4>
 <ul>
+
 <li>プログラムの引数として燗関数の種類(GEMM，N体問題等)，燗関数へのパラメータ(並列数や問題サイズ等)，計算型(float/double)，実行時間を指定できる</li>
 <li>プログラムの引数としてパラメータ探索を行うよう指定でき，グリッドサーチを行う</p>
 <li>プログラムの引数として出力モードを切り替えることができ，人間に優しい表示かデータ処理をしやすいようカンマ区切り形式での標準出力を行う</li>
-</ul>
 
+</ul>
 
 <h2 id='exp'>実験</h2>
 <h3 id='exp1'>実験1. GPUとの接触について</h3>
@@ -95,8 +97,8 @@ ArchLinux
 が，燗計算を行う前にGPUの温度が上昇しデバイスをロストしました．
 </p>
 
-![]({{site.baseurl}}/assets/images/atsukan-touch-0.jpg)
-![]({{site.baseurl}}/assets/images/atsukan-touch-1.jpg)
+![atsukan-touch-0]({{site.baseurl}}/assets/images/atsukan-touch-0.jpg)
+![atsukan-touch-1]({{site.baseurl}}/assets/images/atsukan-touch-1.jpg)
 
 <p>
 適度に冷却した上で実験を行わないといけないようですね．
@@ -107,7 +109,7 @@ ArchLinux
 加熱対象は初期温度からの温度上昇を，GPU温度はそのままの温度をグラフにしたものが下図である．</p>
 <p>GEMMの問題サイズを大きくしすぎるとGPUがロストするので適切な問題サイズで実験は行った．(3つのN×N行列のGEMM計算でN=64，液量は45mL)</p>
 
-![]({{site.baseurl}}/assets/images/atsukan-temperature.svg)
+![atsukan-temperature]({{site.baseurl}}/assets/images/atsukan-temperature.svg)
 
 <p>
 お酒のほうが比熱が低いので早く温まるかなと思っていたけど微妙です．
@@ -116,8 +118,8 @@ ArchLinux
 <h3 id='exp4'>実験3. 燗をつけるぞ!!</h3>
 GEMM! GEMM! GEMM!!
 
-![]({{site.baseurl}}/assets/images/atsukan-kanpai-0.jpg)
-![]({{site.baseurl}}/assets/images/atsukan-kanpai-1.jpg)
+![atsukan-kanpai-0]({{site.baseurl}}/assets/images/atsukan-kanpai-0.jpg)
+![atsukan-kanpai-1]({{site.baseurl}}/assets/images/atsukan-kanpai-1.jpg)
 
 <p>
 燗関数をと問題サイズを適切に選んで45度程度に上げました．
