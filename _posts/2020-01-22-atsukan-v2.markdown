@@ -29,13 +29,11 @@ categories: etc
 <p>
 ひとまず現物を見てみましょう．
 </p>
-![atsukan-server-2]({{site.baseurl}}/assets/images/ac_whole_bg.jpg)
 ![atsukan-server-2]({{site.baseurl}}/assets/images/ac_whole.jpg)
 <p>
 構成としてはNVIDIA Tesla K20が2枚刺さったノードが4ノードの計8GPUで構成されます．<br>
 それぞれのグラフィックボードには水冷用の枕が取り付けられており，冷却液が循環します．<br>
 温められた冷却液は写真中央の冷却液タンクに集められ，ここで日本酒と冷却液での熱交換が行われます．<br>
-（日本酒を冷却液として使うのは<a href='https://x.momo86.net/?p=105'>別の実験</a>）<br>
 冷却液タンクは100円ショップのペン立てを土台に自作です．<br>
 このクラスタを模式的に描いたものやノードの各箇所の写真が以下です．
 </p>
