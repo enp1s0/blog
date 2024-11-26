@@ -1,0 +1,44 @@
+---
+layout: post
+title:  "PTXでf16x2"
+date:   2017-12-15 01:08:41 +0900
+categories: cuda
+---
+
+{% include header.markdown %}
+
+<a href="https://adventar.org/calendars/10896">消えたCUDA関連の旧ブログ記事を復元するひとり Advent Calendar 2024</a>の記事です。
+
+
+<p>Pascal世代から使えるようになった半精度演算はPTXでの型としてはf16とf16x2にあたる.
+f16x2はf16を2つまとめたもので,これを使うとSIMD演算をすることができる.
+今回は備忘録も兼ねてf16x2のことを少しだけ書いておく.
+<h2>f16x2</h2>
+<h3>レジスタ</h3>
+<pre class="code-line">
+.reg .b32 %hoge;
+</pre>
+のように32bit型で指定する.
+<h3>計算</h3>
+<pre class="code-line">
+mul.f16x2 %hoge0, %hoge1, %hoge2;
+</pre>
+のようにf16x2型で計算する.
+<h3>f16,f16x2の相互変換</h3>
+変換というほどでもないが
+
+<pre>
+.reg .b16 %splited&lt;2&gt;;
+
+//f16x2を2つのf16へ
+mov.b32 { %splited0, %splited1 }, %hoge;
+//2つのf16をf16x2へ
+mov.b32 %hoge, { %splited0, %splited1 }; 
+</pre>
+
+<h2>組み込み関数</h2>
+<p>PTXは書きたくない!という方はCUDAの組み込み関数を使えばf16x2の演算を使えます.(こっちが普通の使い方かも?)</p>
+<h2>参考ページ</h2>
+<ul>
+  <li><a href="http://docs.nvidia.com/cuda/cuda-math-api/index.html">NVIDIA CUDA Math API</a></li>
+</ul>
