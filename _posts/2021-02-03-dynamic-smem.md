@@ -64,24 +64,24 @@ ptxas error   : Entry function '_Z6kernelPf' uses too much shared data (0x10000 
 constexpr unsigned shared_memory_size = 64 * 1024;
 
 __global__ void kernel(float* const ptr) {
-	// 1.
-	extern __shared__ float smem[];
+  // 1.
+  extern __shared__ float smem[];
 
-	const unsigned long tid = blockIdx.x * blockDim.x + threadIdx.x;
-	if (tid >= shared_memory_size / sizeof(float)) return;
+  const unsigned long tid = blockIdx.x * blockDim.x + threadIdx.x;
+  if (tid >= shared_memory_size / sizeof(float)) return;
 
-	ptr[tid] = smem[tid];
+  ptr[tid] = smem[tid];
 }
 
 int main() {
-	float *d_array;
-	cudaMalloc(&d_array, shared_memory_size);
+  float *d_array;
+  cudaMalloc(&d_array, shared_memory_size);
 
-	// 2.
-	cudaFuncSetAttribute(&kernel, cudaFuncAttributeMaxDynamicSharedMemorySize, shared_memory_size);
-	// 3.
-	kernel<<<shared_memory_size / 256, 256, shared_memory_size>>>(d_array);
-	cudaDeviceSynchronize();
+  // 2.
+  cudaFuncSetAttribute(&kernel, cudaFuncAttributeMaxDynamicSharedMemorySize, shared_memory_size);
+  // 3.
+  kernel<<<shared_memory_size / 256, 256, shared_memory_size>>>(d_array);
+  cudaDeviceSynchronize();
 }
 {% endhighlight %}
 
@@ -98,15 +98,15 @@ ptxasでエラーが出ていることからも分かるとおり、ptxからカ
 .address_size 64
 
 .visible .entry _Z6kernelPf(
-    .param .u64 _Z6kernelPf_param_0
+  .param .u64 _Z6kernelPf_param_0
 )
 {
-    // iroiro
+  // iroiro
 
-    // demoted variable
-    .shared .align 4 .b8 _ZZ6kernelPfE4smem[65536];
+  // demoted variable
+  .shared .align 4 .b8 _ZZ6kernelPfE4smem[65536];
 
-    // iroiro
+  // iroiro
 
 }
 {% endhighlight %}
