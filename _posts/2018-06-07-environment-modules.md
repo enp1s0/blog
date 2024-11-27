@@ -2,7 +2,7 @@
 layout: post
 title:  "Environment Modulesを使う"
 date:   2018-06-07 01:08:41 +0900
-categories: cuda
+categories: etc
 ---
 
 {% include header.markdown %}
