@@ -159,7 +159,7 @@ Threadはタイミングが微妙にずれながら動いています。<br>
 このズレが演算器を衝突なく利用するための鍵で、Occupancyを高めるということはこのズレたThreadをたくさん生やせるようにするということです。<br>
 この思想はCUDAでの命令の遅延隠蔽の根幹となっています。<br>
 では、逆にOccupancyが低いと隠蔽を隠せないかと言うと必ずしもそうではなく、Thread数はThread sizeを大きくすることでも増やせるのでこちらで隠蔽していくという手もあります。<br>
-遅延隠蔽は他にも使用する回路の異なる命令を同時に動かす命令重ね合わせ（Instruction-level overlap）や、ApmereからはAsynchronous global-to-shared data copyなどがあります。
+遅延隠蔽は他にも使用する回路の異なる命令を同時に動かす命令重ね合わせ（Instruction-level overlap）や、AmpereからはAsynchronous global-to-shared data copyなどがあります。
 </p>
 
 <h3>おまけ：SM割当</h3>
