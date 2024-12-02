@@ -1,0 +1,140 @@
+---
+layout: post
+title:  "多次元Block sizeのWarp idについて"
+date:   2019-06-16 01:08:41 +0900
+categories: cuda
+---
+
+{% include header.markdown %}
+
+<a href="https://adventar.org/calendars/10896">消えたCUDA関連の旧ブログ記事を復元するひとり Advent Calendar 2024</a>の記事です。
+
+<h2 id="overview">概要</h2>
+CUDAのカーネル関数の呼び出しで，
+<pre><code class="code-line">const dim3 block_size(4, 4, 4);
+kernel&lt;&lt;&lt;1, block_size&gt;&gt;&gt;(...);
+</code></pre>
+としたときに起動されるスレッドのWarp idがどうなっているか，という話です．
+
+<h2 id="investigate">調べ方</h2>
+素直にWarp idを調べます．
+CUDAにはWarp idを得るためのレジスタがあるので、それよ読めばOKです．
+
+{% highlight cuda %}
+std::uint32_t warp_id;
+asm(R"({mov.s32 %0, %warpid;})":"=r"(warp_id));
+{% endhighlight %}
+
+<h2 id="result">結果</h2>
+<p>
+{% highlight cuda %}
+dim(4, 4, 4);
+{% endhighlight %}
+の場合，
+<pre>
+[threadIdx.x, threadIdx.y, threadIdx.z] : warpid = X
+[ 0, 0, 0] : warpid =  0
+[ 0, 0, 1] : warpid =  0
+[ 0, 0, 2] : warpid =  1
+[ 0, 0, 3] : warpid =  1
+[ 0, 1, 0] : warpid =  0
+[ 0, 1, 1] : warpid =  0
+[ 0, 1, 2] : warpid =  1
+[ 0, 1, 3] : warpid =  1
+[ 0, 2, 0] : warpid =  0
+[ 0, 2, 1] : warpid =  0
+[ 0, 2, 2] : warpid =  1
+[ 0, 2, 3] : warpid =  1
+[ 0, 3, 0] : warpid =  0
+[ 0, 3, 1] : warpid =  0
+[ 0, 3, 2] : warpid =  1
+[ 0, 3, 3] : warpid =  1
+[ 1, 0, 0] : warpid =  0
+[ 1, 0, 1] : warpid =  0
+[ 1, 0, 2] : warpid =  1
+[ 1, 0, 3] : warpid =  1
+[ 1, 1, 0] : warpid =  0
+[ 1, 1, 1] : warpid =  0
+[ 1, 1, 2] : warpid =  1
+[ 1, 1, 3] : warpid =  1
+[ 1, 2, 0] : warpid =  0
+[ 1, 2, 1] : warpid =  0
+[ 1, 2, 2] : warpid =  1
+[ 1, 2, 3] : warpid =  1
+[ 1, 3, 0] : warpid =  0
+[ 1, 3, 1] : warpid =  0
+[ 1, 3, 2] : warpid =  1
+[ 1, 3, 3] : warpid =  1
+[ 2, 0, 0] : warpid =  0
+[ 2, 0, 1] : warpid =  0
+[ 2, 0, 2] : warpid =  1
+[ 2, 0, 3] : warpid =  1
+[ 2, 1, 0] : warpid =  0
+[ 2, 1, 1] : warpid =  0
+[ 2, 1, 2] : warpid =  1
+[ 2, 1, 3] : warpid =  1
+[ 2, 2, 0] : warpid =  0
+[ 2, 2, 1] : warpid =  0
+[ 2, 2, 2] : warpid =  1
+[ 2, 2, 3] : warpid =  1
+[ 2, 3, 0] : warpid =  0
+[ 2, 3, 1] : warpid =  0
+[ 2, 3, 2] : warpid =  1
+[ 2, 3, 3] : warpid =  1
+[ 3, 0, 0] : warpid =  0
+[ 3, 0, 1] : warpid =  0
+[ 3, 0, 2] : warpid =  1
+[ 3, 0, 3] : warpid =  1
+[ 3, 1, 0] : warpid =  0
+[ 3, 1, 1] : warpid =  0
+[ 3, 1, 2] : warpid =  1
+[ 3, 1, 3] : warpid =  1
+[ 3, 2, 0] : warpid =  0
+[ 3, 2, 1] : warpid =  0
+[ 3, 2, 2] : warpid =  1
+[ 3, 2, 3] : warpid =  1
+[ 3, 3, 0] : warpid =  0
+[ 3, 3, 1] : warpid =  0
+[ 3, 3, 2] : warpid =  1
+[ 3, 3, 3] : warpid =  1
+</pre>
+となり，threadIdx.z = 0, 1の32スレッドがWarp 0, threadIdx.z = 2, 3の32スレッドがWarp 1に割り当てられていることが分かります．
+あくまで32 threadsで1 warpを作り、その中のスレッドにthreadIdx.x, y, zを割り当てているような挙動ですね．
+
+{% highlight cuda %}
+dim(8, 4, 4);
+{% endhighlight %}
+など，きれいな数字の場合きれいにWarp idが割り振られるようです．
+</p>
+<p>
+少し気持ち悪目に
+{% highlight cuda %}
+dim(3, 3, 5);
+{% endhighlight %}
+の場合，
+<pre>$ ./a.out | sort 
+[ 0, 0, 0] : warpid =  0
+[ 0, 0, 1] : warpid =  0
+[ 0, 0, 2] : warpid =  0
+[ 0, 0, 3] : warpid =  1
+[ 0, 0, 4] : warpid =  1
+[ 0, 1, 0] : warpid =  0
+[ 0, 1, 1] : warpid =  0
+[ 0, 1, 2] : warpid =  1
+[ 0, 1, 3] : warpid =  1
+[ 0, 1, 4] : warpid =  1
+[ 0, 2, 0] : warpid =  0
+[ 0, 2, 1] : warpid =  0
+[ 0, 2, 2] : warpid =  1
+[ 0, 2, 3] : warpid =  1
+[ 0, 2, 4] : warpid =  2
+[ 0, 3, 0] : warpid =  0
+[ 0, 3, 1] : warpid =  0
+...
+</pre>
+:thinking_face:
+</p>
+<h2>おまけ</h2>
+<p>
+あまり一般に呼ばれることは少ないですが，1 warp内のthread idのことをlane id、thread block内のwarpのidのことをwarp idと呼びます（少なくともregister名的には）．
+</p>
