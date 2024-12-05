@@ -50,7 +50,7 @@ FP32からFP16への変換（__float2half）はデフォルトでRN（最近接�
 
 {% highlight cuda %}
 const float fp32 = 1.0f;
-const float tf32 = __float_to_tf32(fp32);</pre>
+const float tf32 = __float_to_tf32(fp32);
 {% endhighlight %}
 
 <p>
