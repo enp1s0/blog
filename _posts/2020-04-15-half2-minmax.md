@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  "Occupancyを可視化する"
-date:   2021-08-08 01:08:41 +0900
+title:  "CUDA half2のmax/min"
+date:   2020-04-15 01:08:41 +0900
 categories: cuda
 ---
 
