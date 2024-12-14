@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "CUDAのstreamにhost関数を流すには"
-date:   2021-08-08 01:08:41 +0900
+date:   2020-06-29 01:08:41 +0900
 categories: cuda
 ---
 
