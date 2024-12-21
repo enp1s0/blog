@@ -28,7 +28,7 @@ binary32の指数部の最大値は127なので、指数部が126で仮数部が
 <h2 id='c'>精度評価</h2>
 <p>
 <span class='code-range'>div.approx</span>、<span class='code-range'>div.full</span>、<span class='code-range'>div.rn</span>（IEEE準拠で丸めにRNを用いる除算命令）の除算計算精度を倍精度で計算した場合と比較したのが下の図です。<br>
-倍精度計算との相対誤差を表示しています。
+1/3をb_FP32（横軸）で割った精度を倍精度計算との相対誤差（縦軸）で表示しています。
 </p>
 <img class='img-responsive' src='{{site.baseurl}}/assets/images/cuda-approx-div.svg'>
 <p>
