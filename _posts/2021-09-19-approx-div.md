@@ -20,7 +20,7 @@ CUDAの単精度浮動小数点数（binary32）用の除算命令には近似�
 <a href='https://docs.nvidia.com/cuda/parallel-thread-execution/index.html#floating-point-instructions-div'>CUDA Toolkit Documentation 9.7.3.8. Floating Point Instructions: div</a>によると、<span class='code-range'>a / b</span>を<span class='code-range'>a * (1 / b)</span>と計算するとのことです。<br>
 で、デフォルトの除算命令より速いとのことです。<br>
 逆数計算は<a href='https://qiita.com/k_nitadori/items/cff0b67b1d422a5bcc01'>近似逆数平方根計算</a>などで行うのでしょうか？<br>
-ただしこの命令は<span class='code-range'>b</span>が\([2^{-126}, 2^{126}]\)という制約があります。<br>
+ただしこの命令は<span class='code-range'>b</span>が[2^{-126}, 2^{126}]という制約があります。<br>
 binary32の指数部の最大値は127なので、指数部が126で仮数部が非零の場合と指数部が127の場合は計算できないということとなります。<br>
 で、この制約をスケーリングにより外したものが<span class='code-range'>div.full</span>です（full-rangeのfullです）。<br>
 また、これらの近似除算命令では丸めの指定はできません。
@@ -33,8 +33,8 @@ binary32の指数部の最大値は127なので、指数部が126で仮数部が
 <img class='img-responsive' src='{{site.baseurl}}/assets/images/cuda-approx-div.svg'>
 <p>
 やはり近似計算の方が若干精度が悪いことがわかります。<br>
-また、<span class='code-range'>div.approx</span>で\(b_{FP32}\)が大きいときにerrorが飛び出ているのは<span class='code-range'>div.approx</span>のbの対応範囲外のためです。<br>
-近似計算か否かに関わらず、\(b_{FP32}\)が大きいときは精度が少し悪くなることも確認できます。
+また、<span class='code-range'>div.approx</span>でb_FP32が大きいときにerrorが飛び出ているのは<span class='code-range'>div.approx</span>のbの対応範囲外のためです。<br>
+近似計算か否かに関わらず、b_FP32が大きいときは精度が少し悪くなることも確認できます。
 
 <h2 id='d'>評価コード</h2>
 {% highlight cuda %}
