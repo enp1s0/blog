@@ -22,7 +22,9 @@ Fortran/OpenACCのループ内サブルーチンで可変長配列を用いた�
 inline展開されると困るので、2ファイルに分けて書いています。
 </p>
 
-{% highlight f90 %}
+
+▼sub.f90
+{% highlight fortran %}
 subroutine sub_routine(a, array_size)
   !$acc routine seq
   real(8) :: a(:)
@@ -36,6 +38,35 @@ subroutine sub_routine(a, array_size)
   end do
 end subroutine
 {% endhighlight %}
+
+▼main.f90
+{% highlight fortran %}
+program main
+  interface
+    subroutine sub_routine(a, array_size)
+      !$acc routine seq
+      real(8) :: a(:)
+      integer :: array_size
+    end subroutine
+  end interface
+
+
+  integer :: array_size = 10000
+  integer :: n = 100000
+
+  real(8), dimension(:), allocatable :: a
+
+  allocate(a(n))
+
+  !$acc kernels copy(a(1:n)), copyin(array_size)
+  do i = 1, n
+  call sub_routine(a, array_size)
+  enddo
+  !$acc end kernels
+
+end program
+{% endhighlight %}
+
 
 <p>
 （Makefile等はこちら <a href='https://github.com/enp1s0/openacc-subroutine'>enp1s0/openacc-subroutine - GitHub</a>）
