@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  "Occupancyを可視化する"
-date:   2021-08-08 01:08:41 +0900
+title:  "Fortran+OpenACCのsubroutine内可変長配列"
+date:   2021-09-24 01:08:41 +0900
 categories: cuda
 ---
 
